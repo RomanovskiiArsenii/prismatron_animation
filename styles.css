@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@100..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --slidersFaceSwitch: 180deg;
+    --slidersBackSwitch: 0deg;
+    --slidersFaceColor: rgb(37, 52, 48);
+    --slidersBackColor: rgb(214, 232, 227);
+    --slidersBorderColor: rgba(127, 127, 127, 0.2);
+    --perspectiveValue: perspective(10000px);
+    --vignetteFirstColor: rgba(0, 0, 0, 0.4);
+    --vignetteSecondColor: rgba(0, 0, 0, 0.7);
+    --describerFontColor: #16be78;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*::selection {
+    background-color: var(--selectionColor);
+}
+
+body {
+    font-family: 'Martian Mono', monospace;
+    font-weight: 600;
+    overflow-x: hidden;
+}
+
+.vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: radial-gradient(
+        circle at center,
+        transparent 30%,
+        var(--vignetteFirstColor) 75%,
+        var(--vignetteSecondColor) 100%
+    );
+    z-index: 100;
+    pointer-events: none;
+}
+
+.slides_container {
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    overflow-x: hidden;
+
+    transform-style: preserve-3d;
+
+    z-index: 1;
+
+    transition: background-color 2s ease-in 0.5s;
+}
+
+.strip {
+    position: relative;
+    width: var(--part);
+    height: 100%;
+    font-size: calc(var(--part) * 0.6);
+}
+
+.face,
+.back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-top: 0.5em;
+    backface-visibility: hidden;
+    text-align: center;
+    z-index: 2;
+    border-right: 1px solid var(--slidersBorderColor);
+    border-left: 1px solid var(--slidersBorderColor);
+}
+
+.face {
+    background-color: var(--slidersFaceColor);
+    color: white;
+    transform: rotate3d(0, 1, 0, 180deg);
+}
+
+.back {
+    background-color: var(--slidersBackColor);
+}
+
+.describer {
+    position: absolute;
+    bottom: 3vh;
+    right: 2em;
+    z-index: 101;
+    text-align: right;
+    mix-blend-mode: difference;
+    font-size: calc(var(--part) * 0.2);
+}
+
+.describer p,
+.describer a {
+    position: relative;
+    text-decoration: none;
+    margin-top: 0.5em;
+    color: var(--describerFontColor);
+}
+
+.pointing_arrow {
+    position: absolute;
+    top: calc(var(--part) * -0.18);
+    left: calc(var(--part) * -0.2);
+    font-size: calc(var(--part) * 0.4);
+    animation: pointingArrowMove 3s ease-in-out alternate infinite;
+}
+
+@keyframes pointingArrowMove {
+    from {
+        left: calc(var(--part) * -0.4);
+    }
+
+    to {
+        left: calc(var(--part) * -0.2);
+    }
+}
+
+#pause {
+    position: absolute;
+    bottom: 3vh;
+    left: calc(var(--part) * 0.1);
+    width: calc(var(--part) * 0.8);
+    z-index: 3;
+    filter: invert(50%) blur(3px);
+    transition: filter 0.8s, transform 0.8s;
+}
+
+#pause:hover {
+    filter: invert(50%);
+    transform: scale(0.9);
+}
+
+@keyframes face-slide {
+    0% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersFaceSwitch)));
+    }
+
+    50% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersFaceSwitch) - 210deg));
+    }
+
+    70% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersFaceSwitch) - 160deg));
+    }
+
+    85% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersFaceSwitch) - 195deg));
+    }
+
+    95% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersFaceSwitch) - 168deg));
+    }
+
+    100% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersFaceSwitch) - 180deg));
+    }
+}
+
+@keyframes back-slide {
+    0% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersBackSwitch)));
+    }
+
+    50% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersBackSwitch) - 210deg));
+    }
+
+    70% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersBackSwitch) - 160deg));
+    }
+
+    85% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersBackSwitch) - 195deg));
+    }
+
+    95% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersBackSwitch) - 168deg));
+    }
+
+    100% {
+        transform: var(--perspectiveValue) rotate3d(0, 1, 0, calc(var(--slidersBackSwitch) - 180deg));
+    }
+}
